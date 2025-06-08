@@ -1,0 +1,62 @@
+table{
+    color:#fff;
+    background-color:#333;
+    border-collapse: collapse;
+    text-align: center;
+    font: normal 3em Arial, sans-serif;
+}
+
+tr{
+    height: 16.02vh;
+    background-color: #4e494d;
+}
+
+td{ 
+ width: 25vw;
+ border: 2px solid #4e494d
+
+}
+
+#inputBox{
+background-color: #4e494d;
+text-align: right;
+width: 100%;
+font-size: 2em;
+color: #fff;
+border: 0px;
+}
+
+.digitButton{
+    background-color:#807e80;
+}
+
+.digitButton:hover{
+    background-color: #a7a5a7;
+}
+
+.OperatorButton{
+    background-color: #ff9e06;
+}
+.OperatorButton:hover{
+    background-color: #ffb84d;
+}
+
+.ACButton{
+    background-color: #ff0000;
+} 
+.ACButton:hover{
+    background-color: #ff3333;
+}
+.equalsBtn{
+    background-color: #00ff00;
+}
+.equalsBtn:hover{
+    background-color: #33ff33;
+}
+
+.SciButton{
+    background-color: #00bfff;
+}
+.SciButton:hover{
+    background-color: #33ccff;
+}

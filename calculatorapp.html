@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+<link rel="stylesheet" type="text/css" href="Style.css">
+        <meta charset="UTF-8">  
+            <title>Boikano's Calculator</title>
+    
+        </head>
+
+<body>
+    <table border="10" align="center" width="500" height="500">
+        <tr>
+            <td colspan="4" align="right">
+                <input type="text" id="inputBox" value="0"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="SciButton" onclick="sciFuncPressed('sin')">sin</td>
+            <td class="SciButton" onclick="sciFuncPressed('cos')">cos</td>
+            <td class="SciButton" onclick="sciFuncPressed('tan')">tan</td>
+            <td class="SciButton" onclick="sciFuncPressed('sqrt')">√</td>
+        </tr>
+    <tr>
+            <td class="SciButton" onclick="sciFuncPressed('log')">log</td>
+            <td class="SciButton" onclick="sciFuncPressed('ln')">ln</td>
+            <td class="SciButton" onclick="sciFuncPressed('square')">x²</td>
+             <td class="SciButton" onclick="appendToDisplay('π')">π</td>
+            
+        </tr>
+       <tr>
+        <td class="SciButton" onclick="roundPressed(2)">R2</td>
+            <td class="SciButton" onclick="percentPressed()">%</td>
+            <td class= "ACButton" colspan="2" onclick="btnACPressed()">AC</td>
+        </tr>
+
+        <tr>
+            <td class="digitButton" onclick="appendToDisplay('7')">7</td>
+            <td class="digitButton" class="digitButton" onclick="appendToDisplay('8')">8</td>
+            <td class="digitButton"onclick="appendToDisplay('9')">9</td>
+            <td class="OperatorButton" onclick="operatorBtnPressed('*')">x</td>
+        </tr>
+        <tr>
+            <td class="digitButton" onclick="appendToDisplay('4')">4</td>
+            <td class="digitButton" onclick="appendToDisplay('5')">5</td>
+            <td class="digitButton" onclick="appendToDisplay('6')">6</td>
+            <td class="OperatorButton" onclick="operatorBtnPressed('-')">-</td>
+        </tr>
+        <tr>
+            <td class="digitButton" onclick="appendToDisplay('1')">1</td>
+            <td class="digitButton" onclick="appendToDisplay('2')">2</td>
+            <td class="digitButton" onclick="appendToDisplay('3')">3</td>
+            <td class="OperatorButton" onclick="operatorBtnPressed('+')">+</td>
+        </tr>
+        <tr>
+            <td class="digitButton" colspan="1" onclick="appendToDisplay('0')">0</td>
+            <td class="digitButton" onclick="appendToDisplay('.')">.</td>
+            <td class="equalsBtn" colspan="1" onclick="equalsBtnPressed()">=</td>
+            <td class="OperatorButton" onclick="operatorBtnPressed('/')">/</td> 
+        </tr>
+
+    </table>
+
+
+<script> // JavaScript code to handle calculator operations
+
+    var newLine = true;  // Boolen variable to track if a new line is being started
+    var value1;
+    var currentOperator;;
+
+
+// Event handler for when any digit is pressed
+    function appendToDisplay(button) {
+        if(newLine){
+            document.getElementById("inputBox").value = button; newLine = false;} 
+        else{
+        var curentValue = document.getElementById("inputBox").value;
+            document.getElementById("inputBox").value = curentValue + button; 
+    }}
+
+// Event handler for when AC button pressed
+    function btnACPressed() {
+        document.getElementById("inputBox").value = 0;
+        newLine = true;
+    }
+//Operator button event handlers
+    function operatorBtnPressed(operator){                  // Stores the operator pressed
+        currentOperator = operator;
+        value1 = parseInt(document.getElementById("inputBox").value); // Stores the first value entered. parseInt convet everything into an intiger and value 1.
+        newLine = true; // Set newLine to true to start a new input line
+    }
+//Event handler for the equal button
+    function equalsBtnPressed(){
+            var value2 = parseInt(document.getElementById("inputBox").value); // Stores the second value entered
+            var result; // Variable to store the result of the calculation
+
+            switch(currentOperator) { // Switch statement to determine the operator pressed
+                case '+':
+                    result = value1 + value2; // Addition
+                    break;
+                case '-':
+                    result = value1 - value2; // Subtraction
+                    break;
+                case '*':
+                    result = value1 * value2; // Multiplication
+                    break;
+                case '/':
+                    if (value2 !== 0) {
+                        result = value1 / value2; // Division
+                    } else {
+                        alert("Cannot divide by zero!"); // Alert for division by zero
+                        return;
+                    }
+                    break;
+                default:
+                    alert("Invalid operator!"); // Alert for invalid operator
+                    return;
+            }
+            document.getElementById("inputBox").value = result; // Display the result in the input box
+             value1 = 0; // Reset value1 for the next calculation
+             newLine = true; // Set newLine to true to start a new input line   
+        }
+// Event handler for scientific functions
+function sciFuncPressed(func) {
+    var input = document.getElementById("inputBox").value;
+    var value = parseFloat(input.replace('π', Math.PI).replace('e', Math.E));
+    var result;
+
+    switch(func) {
+        case 'sin':
+            result = Math.sin(value);
+            break;
+        case 'cos':
+            result = Math.cos(value);
+            break;
+        case 'tan':
+            result = Math.tan(value);
+            break;
+        case 'sqrt':
+            if (value < 0) {
+                alert("Invalid input for square root!");
+                return;
+            }
+            result = Math.sqrt(value);
+            break;
+        case 'log':
+            if (value <= 0) {
+                alert("Invalid input for log!");
+                return;
+            }
+        result = Math.log10(value);
+            break;
+        case 'ln':
+            if (value <= 0) {
+                alert("Invalid input for ln!");
+                return;
+            }
+            result = Math.log(value);
+            break;
+        case 'square':
+            result = Math.pow(value, 2);
+            break;
+        default:
+            alert("Unknown function!");
+            return;
+    }
+    document.getElementById("inputBox").value = result;
+    newLine = true;
+}
+// Update appendToDisplay to handle π and e
+function appendToDisplay(button) {
+    if (button === 'π') button = Math.PI;
+    if (button === 'e') button = Math.E;
+    if(newLine){
+        document.getElementById("inputBox").value = button; newLine = false;
+    } else {
+        var curentValue = document.getElementById("inputBox").value;
+        document.getElementById("inputBox").value = curentValue + button; 
+    }
+}
+
+// Percentage button handler
+function percentPressed() {
+    var input = document.getElementById("inputBox").value;
+    var value = parseFloat(input.replace('π', Math.PI).replace('e', Math.E));
+    var result = value / 100;
+    document.getElementById("inputBox").value = result;
+    newLine = true;
+}
+
+// Rounding button handler
+function roundPressed(decimals) {
+    var input = document.getElementById("inputBox").value;
+    var value = parseFloat(input.replace('π', Math.PI).replace('e', Math.E));
+    var result = Number.isNaN(value) ? 0 : value.toFixed(decimals);
+    document.getElementById("inputBox").value = result;
+    newLine = true;
+}
+</script>
+
+</body>
