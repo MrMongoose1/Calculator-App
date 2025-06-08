@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <table border="2" cellspacing="0" cellpadding="5" class="calculator" 
+    <table border="20" cellspacing="0" cellpadding="2" class="calculator" 
            style="border-collapse: collapse; font-family: Arial, sans-serif; background-color: #e08319;"
-     align="center" width="00" height="00">
+     align="center" width="100%" height="100%">
         <tr>
             <td colspan="4" align="right">
                 <input type="text" id="inputBox" value="0"/>
@@ -20,28 +20,19 @@
         <tr>
             <td class="SmallButton" onclick="appendToDisplay('(')">(</td>
             <td class="SmallButton" onclick="appendToDisplay(')')">)</td>
-            <td class="SmallButton" colspan="2" onclick="backspacePressed()">⌫</td>
+            <td class="SmallButton" colspan="1" onclick="backspacePressed()">⌫</td>
+            <td class= "ACButton" colspan="1" onclick="btnACPressed()">AC</td>
         </tr>
         
-        <tr>
-            <td class="SciButton" onclick="sciFuncPressed('sin')">sin</td>
-            <td class="SciButton" onclick="sciFuncPressed('cos')">cos</td>
-            <td class="SciButton" onclick="sciFuncPressed('tan')">tan</td>
-            <td class="SciButton" onclick="sciFuncPressed('sqrt')">√</td>
-        </tr>
+        
     <tr>
-            <td class="SciButton" onclick="sciFuncPressed('log')">log</td>
-            <td class="SciButton" onclick="sciFuncPressed('ln')">ln</td>
+            <td class="SciButton" onclick="roundPressed(2)">R2</td>
+            <td class="SciButton" onclick="sciFuncPressed('sqrt')">√</td>
             <td class="SciButton" onclick="sciFuncPressed('square')">x²</td>
-             <td class="SciButton" onclick="appendToDisplay('π')">π</td>
+             <td class="SciButton" onclick="percentPressed()">%</td>
             
         </tr>
-       <tr>
-        <td class="SciButton" onclick="roundPressed(2)">R2</td>
-            <td class="SciButton" onclick="percentPressed()">%</td>
-            <td class= "ACButton" colspan="2" onclick="btnACPressed()">AC</td>
-        </tr>
-        
+     
         <tr>
             <td class="digitButton" onclick="appendToDisplay('7')">7</td>
             <td class="digitButton" class="digitButton" onclick="appendToDisplay('8')">8</td>
