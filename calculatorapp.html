@@ -4,16 +4,25 @@
 <link rel="stylesheet" type="text/css" href="Style.css">
         <meta charset="UTF-8">  
             <title>Boikano's Calculator</title>
-    
-        </head>
+    <link rel="manifest" href="/manifest.json">
+
+</head>
 
 <body>
-    <table border="10" align="center" width="500" height="500">
+    <table border="2" cellspacing="0" cellpadding="5" class="calculator" 
+           style="border-collapse: collapse; font-family: Arial, sans-serif; background-color: #e08319;"
+     align="center" width="00" height="00">
         <tr>
             <td colspan="4" align="right">
                 <input type="text" id="inputBox" value="0"/>
             </td>
         </tr>
+        <tr>
+            <td class="SmallButton" onclick="appendToDisplay('(')">(</td>
+            <td class="SmallButton" onclick="appendToDisplay(')')">)</td>
+            <td class="SmallButton" colspan="2" onclick="backspacePressed()">⌫</td>
+        </tr>
+        
         <tr>
             <td class="SciButton" onclick="sciFuncPressed('sin')">sin</td>
             <td class="SciButton" onclick="sciFuncPressed('cos')">cos</td>
@@ -32,7 +41,7 @@
             <td class="SciButton" onclick="percentPressed()">%</td>
             <td class= "ACButton" colspan="2" onclick="btnACPressed()">AC</td>
         </tr>
-
+        
         <tr>
             <td class="digitButton" onclick="appendToDisplay('7')">7</td>
             <td class="digitButton" class="digitButton" onclick="appendToDisplay('8')">8</td>
@@ -55,7 +64,7 @@
             <td class="digitButton" colspan="1" onclick="appendToDisplay('0')">0</td>
             <td class="digitButton" onclick="appendToDisplay('.')">.</td>
             <td class="equalsBtn" colspan="1" onclick="equalsBtnPressed()">=</td>
-            <td class="OperatorButton" onclick="operatorBtnPressed('/')">/</td> 
+            <td class="OperatorButton" onclick="operatorBtnPressed('/')">÷</td> 
         </tr>
 
     </table>
@@ -83,42 +92,47 @@
         newLine = true;
     }
 //Operator button event handlers
-    function operatorBtnPressed(operator){                  // Stores the operator pressed
+    function operatorBtnPressed(operator){  
+        var inputBox = document.getElementById("inputBox");
+        var currentValue = inputBox.value;
+                    // Stores the operator pressed
         currentOperator = operator;
         value1 = parseInt(document.getElementById("inputBox").value); // Stores the first value entered. parseInt convet everything into an intiger and value 1.
         newLine = true; // Set newLine to true to start a new input line
+   
+   
+        // Prevent two operators in a row
+    if (/[+\-x÷*/]$/.test(currentValue)) {
+        // Replace the last operator with the new one
+        inputBox.value = currentValue.slice(0, -1) + operator;
+    } else {
+        inputBox.value = currentValue + operator;
+    }
+    newLine = false;
+    
     }
 //Event handler for the equal button
     function equalsBtnPressed(){
-            var value2 = parseInt(document.getElementById("inputBox").value); // Stores the second value entered
+            
             var result; // Variable to store the result of the calculation
-
-            switch(currentOperator) { // Switch statement to determine the operator pressed
-                case '+':
-                    result = value1 + value2; // Addition
-                    break;
-                case '-':
-                    result = value1 - value2; // Subtraction
-                    break;
-                case '*':
-                    result = value1 * value2; // Multiplication
-                    break;
-                case '/':
-                    if (value2 !== 0) {
-                        result = value1 / value2; // Division
-                    } else {
-                        alert("Cannot divide by zero!"); // Alert for division by zero
-                        return;
-                    }
-                    break;
-                default:
-                    alert("Invalid operator!"); // Alert for invalid operator
-                    return;
-            }
-            document.getElementById("inputBox").value = result; // Display the result in the input box
-             value1 = 0; // Reset value1 for the next calculation
-             newLine = true; // Set newLine to true to start a new input line   
-        }
+            var input = document.getElementById("inputBox").value;
+                
+            
+            // Replace π and e with their numeric values
+            input = input.replace(/π/g, Math.PI).replace(/e/g, Math.E);
+            // Replace 'x' and '÷' with '*' and '/' if used
+            input = input.replace(/x/g, '*').replace(/÷/g, '/');
+            try {
+                // Evaluate the expression (including brackets)
+                var result = eval(input);
+                document.getElementById("inputBox").value = result;
+                newLine = true;
+            } catch (e) {
+                alert("Invalid expression!");
+                document.getElementById("inputBox").value = 0; // Reset value1 for the next calculation
+                newLine = true;// Set newLine to true to start a new input line  
+            } 
+         }
 // Event handler for scientific functions
 function sciFuncPressed(func) {
     var input = document.getElementById("inputBox").value;
@@ -194,6 +208,17 @@ function roundPressed(decimals) {
     var result = Number.isNaN(value) ? 0 : value.toFixed(decimals);
     document.getElementById("inputBox").value = result;
     newLine = true;
+}
+
+// Backspace button handler
+function backspacePressed() {
+    var input = document.getElementById("inputBox").value;
+    if (input.length > 1) {
+        document.getElementById("inputBox").value = input.slice(0, -1);
+    } else {
+        document.getElementById("inputBox").value = 0;
+        newLine = true;
+    }
 }
 </script>
 
